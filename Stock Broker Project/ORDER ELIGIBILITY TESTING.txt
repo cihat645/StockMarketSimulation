@@ -1,0 +1,59 @@
+ORDER ELIGIBILITY TEST OUTPUT: 
+
+Order Attempt: Order sample_buy1(102, 12,10000,Stock, "IBM", nine_forty_AM, Limit, Day, Buy, 153.86);
+
+
+OUTPUT:
+
+Login Successful!
+For time interval: 38100000 + 15 minutes
+High = 154.69
+Low = 150.25
+num_shares_owned = 0
+activity status = Active
+cash_balance = 99976
+Order 102 Ineligible:  insufficient account balance
+
+
+
+Order Attempt: Order sample_buy1(102, 12,10000,Stock, "IBM", nine_forty_AM, Market, Day, Buy, 153.86);
+
+OUTPUT:
+
+Login Successful!
+num_shares_owned = 0
+activity status = Active
+cash_balance = 99976
+Order 102 Ineligible: insufficient cash balance to fill market 'buy' order given current market conditions
+
+
+
+
+Order Attempt: Order sample_sell1(105,5000, 30, Stock, "IBM", ten_thirty_fiveAM, Limit, Day, Sell, 153.9);
+
+
+OUTPUT:
+
+num_shares_owned = 0
+activity status = Active
+cash_balance = 99976
+Order 105 Ineligible: we cannot sell any shares that we do not own, we can only short sell if we own no shares
+
+
+Trying to cover a non-existent short position:
+
+Order Attempt: Order sample_sell1(106,5000, 30, Stock, "IBM", nine_forty_AM, Limit, Day, Cover, 153.9); 
+
+
+OUTPUT:
+
+Login Successful!
+num_shares_owned = 0
+activity status = Active
+cash_balance = 99976
+Order 106 Ineligible: reason: cannot cover a short position if no short position exists
+No Pending Orders Exist
+
+
+
+

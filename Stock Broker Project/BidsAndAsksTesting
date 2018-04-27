@@ -1,0 +1,433 @@
+Bids are sorted in descending order with respect to price. If multiple bids assume the same price, then they are sorted in ascending order with respect to their timestamp. As illustrated below, bids with preceding timestamps trump other price-equivalent bids.
+
+    milliseconds b1(900), b2(908), b3(905), b4(857), b5(1000), b6(830);
+    
+    Offer bid1(101.5, 400, Bid, b1), bid2(101.25, 200, Bid, b2), bid3(101.75, 500, Bid, b3), bid4(101.5,1000, Bid, b4), bid5(102.05,100, Bid, b5), bid6(100.1,1000, Bid, b6);
+    
+    Market Mark1("IBM");
+    Mark1.NEW_insert_offer(bid1);
+    Mark1.NEW_insert_offer(bid2);
+    Mark1.NEW_insert_offer(bid3);
+    Mark1.NEW_insert_offer(bid4);
+    Mark1.NEW_insert_offer(bid5);
+    cout << " Bids after inserting all bids: " << endl;
+    Mark1.Print_Offers(Bid);
+    
+    Mark1.remove_front(Bid);
+    cout << " Bids after deleting front: " << endl;
+    Mark1.Print_Offers(Bid);
+    Mark1.NEW_insert_offer(bid4);
+    Mark1.NEW_insert_offer(bid6);
+    Mark1.NEW_insert_offer(bid3);
+    cout << " Bids after inserting more bids: " << endl;
+    Mark1.Print_Offers(Bid);
+
+OUTPUT:
+
+ Bids after inserting all bids: 
+-------------------------------
+| 102.05    100           1000|
+-------------------------------
+-------------------------------
+| 101.75    500            905|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5    400            900|
+-------------------------------
+-------------------------------
+| 101.25    200            908|
+-------------------------------
+
+
+ Bids after deleting front: 
+-------------------------------
+| 101.75    500            905|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5    400            900|
+-------------------------------
+-------------------------------
+| 101.25    200            908|
+-------------------------------
+
+
+ Bids after inserting more bids: 
+-------------------------------
+| 101.75    500            905|
+-------------------------------
+-------------------------------
+| 101.75    500            905|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5    400            900|
+-------------------------------
+-------------------------------
+| 101.25    200            908|
+-------------------------------
+-------------------------------
+| 100.1   1000            830|
+-------------------------------
+
+
+Program ended with exit code: 0
+     
+NOTE: Format of offers is: [Price, Qty, Timestamp]
+
+Asks are handled very similarly to bids except they are sorted in ascending order (i.e., the best ask is the ask with the lowest price).
+
+CODE:
+
+    Market ECN1("IBM");
+        milliseconds a1(900), a2(908), a3(905), a4(857), a5(834);
+         Offer ask1(100.1, 400, Ask, a1), ask2(100.33, 200, Ask, a2), ask3(99.83, 500, Ask, a3), ask4(100.1,1000, Ask, a4), ask5(100.03,100, Ask, a5);
+    
+        ECN1.NEW_insert_offer(ask1);
+        ECN1.NEW_insert_offer(ask2);
+        cout << "After inserting ask1 & ask2: " << endl;
+        ECN1.Print_Offers(Ask);
+    
+         ECN1.NEW_insert_offer(ask3);
+        cout << "After inserting ask3: " << endl;
+        ECN1.Print_Offers(Ask);
+         ECN1.NEW_insert_offer(ask4);
+        cout << "After inserting ask4: " << endl;
+        ECN1.Print_Offers(Ask);
+         ECN1.NEW_insert_offer(ask5);
+        cout << "After inserting ask5: " << endl;
+        ECN1.Print_Offers(Ask);
+    
+    
+        ECN1.remove_front(Ask);
+        cout << "After deleting front: " << endl;
+        ECN1.Print_Offers(Ask);
+
+
+OUTPUT:
+
+After inserting ask1 & ask2: 
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+After inserting ask3: 
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+After inserting ask4: 
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+After inserting ask5: 
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+After deleting front: 
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Program ended with exit code: 0
+
+
+
+Here’s an example of transaction processing by the ECN (bid initiating transaction):
+
+CODE:
+
+   milliseconds a1(900), a2(908), a3(905), a4(857), a5(834);
+    Offer ask1(100.1, 400, Ask, a1), ask2(100.33, 200, Ask, a2), ask3(99.83, 500, Ask, a3), ask4(100.1,1000, Ask, a4), ask5(100.03,100, Ask, a5);
+    ECN Sample_ECN("IBM");
+    
+    Sample_ECN.market.NEW_insert_offer(ask1);
+    Sample_ECN.market.NEW_insert_offer(ask2);
+    Sample_ECN.market.NEW_insert_offer(ask3);
+    Sample_ECN.market.NEW_insert_offer(ask4);
+    Sample_ECN.market.NEW_insert_offer(ask5);
+    cout << "Current Asks (Before transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Ask);
+    cout << "Current Bids (Before transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Bid);
+
+    
+    //creating a sample bid
+    Offer bid1(99.83, 200, Bid, a1);
+
+    Sample_ECN.ParseOffer(bid1);
+    
+    cout << "Current Asks (After transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Ask);
+    cout << "Current Bids (After transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Bid);
+
+
+OUTPUT: 
+Current Bids (Before transaction):
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+Current Bids (Before transaction):
+
+
+
+Current Asks (After transaction):
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Current Bids (After transaction):
+-------------------------------
+| 100.05    200            900|
+-------------------------------
+
+
+Program ended with exit code: 0
+
+
+Same code as above, except with a bid of price 105.
+
+OUTPUT:
+Current Asks (Before transaction):
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Current Bids (Before transaction):
+
+
+NOTE: Current asks or current bids is empty
+Current Asks (After transaction):
+-------------------------------
+| 100.1    800            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Current Bids (After transaction):
+
+
+Program ended with exit code: 0
+
+
+
+Same code as above except with a bid price of 99.83 with Qty = 200
+
+OUTPUT:
+
+
+Current Asks (Before transaction):
+-------------------------------
+| 99.83    500            905|
+-------------------------------
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Current Bids (Before transaction):
+
+
+NOTE: Current asks or current bids is empty
+Current Asks (After transaction):
+-------------------------------
+| 99.83    300            905|
+-------------------------------
+-------------------------------
+| 100.03    100            834|
+-------------------------------
+-------------------------------
+| 100.1   1000            857|
+-------------------------------
+-------------------------------
+| 100.1    400            900|
+-------------------------------
+-------------------------------
+| 100.33    200            908|
+-------------------------------
+
+
+Current Bids (After transaction):
+
+
+Program ended with exit code: 0
+
+
+Here’s a sample of an ask initiating a transaction:
+
+CODE:
+    milliseconds b1(900), b2(908), b3(905), b4(857), b5(1000), b6(830);
+    milliseconds a1(900), a2(908), a3(905), a4(857), a5(834);
+    Offer bid1(101.5, 400, Bid, b1), bid2(101.25, 200, Bid, b2), bid3(101.75, 500, Bid, b3), bid4(101.5,1000, Bid, b4), bid5(102.05,100, Bid, b5), bid6(100.1,1000, Bid, b6);
+    
+    Offer ask1(100.1, 400, Ask, a1), ask2(100.33, 200, Ask, a2), ask3(99.83, 500, Ask, a3), ask4(100.1,1000, Ask, a4), ask5(100.03,100, Ask, a5);
+    ECN Sample_ECN("IBM");
+    
+    Sample_ECN.market.NEW_insert_offer(bid1);
+    Sample_ECN.market.NEW_insert_offer(bid2);
+    Sample_ECN.market.NEW_insert_offer(bid3);
+    Sample_ECN.market.NEW_insert_offer(bid4);
+    Sample_ECN.market.NEW_insert_offer(bid5);
+    cout << "Current Bids (Before transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Bid);
+    cout << "Current Asks (Before transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Ask);
+    
+    Sample_ECN.ParseOffer(ask1);
+    
+    
+    cout << "Current Bids (After transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Bid);
+    cout << "Current Asks (After transaction):" << endl;
+    Sample_ECN.market.Print_Offers(Ask);
+
+
+OUTPUT:
+
+Current Bids (Before transaction):
+-------------------------------
+| 102.05    100           1000|
+-------------------------------
+-------------------------------
+| 101.75    500            905|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5    400            900|
+-------------------------------
+-------------------------------
+| 101.25    200            908|
+-------------------------------
+
+
+Current Asks (Before transaction):
+
+
+NOTE: Current asks or current bids is empty
+Current Bids (After transaction):
+-------------------------------
+| 101.75    200            905|
+-------------------------------
+-------------------------------
+| 101.5   1000            857|
+-------------------------------
+-------------------------------
+| 101.5    400            900|
+-------------------------------
+-------------------------------
+| 101.25    200            908|
+-------------------------------
+
+
+Current Asks (After transaction):
+
+
+Program ended with exit code: 0
+
+

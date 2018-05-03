@@ -20,7 +20,7 @@ I have obtained millisecond market data for IBM stock which includes the details
 
 The simulation begins by prompting the user to create an order for IBM stock. The user must also specify the time of day the order would be submitted if placed in real-time. Once the order has been created, we begin parsing the order data for IBM.
 
-![alt text](https://docs.google.com/drawings/d/e/2PACX-1vQTaNjMCIwPmrbIIGwH_kmUlrmQqLylqtAq5kNwHtymSt7tT4VlvITI-i1gKxapFN3RwxX07yPwXGQy/pub?w=960&h=720)
+![alt text](https://docs.google.com/drawings/d/e/2PACX-1vQTaNjMCIwPmrbIIGwH_kmUlrmQqLylqtAq5kNwHtymSt7tT4VlvITI-i1gKxapFN3RwxX07yPwXGQy/pub?w=480&h=360)
 
 Once the order has been created, the application converts each line of the market data into an Offer, using the chrono library to typecast the string timestamp into the Offer’s millisecond timestamp. The Offer is then submitted to its corresponding ECN before parsing the next line. Each ECN (Electronic Communication Network) will autonomously match buyers and sellers as each line is streamed, parsed into an Offer and then routed. The transaction crietria underpinning the ECN objects is outlined in further detail in the wiki.
 

@@ -26,6 +26,5 @@ Once the order has been created, the application converts each line of the marke
 
 The application continues to submit orders from the file to their respective ECN until we stream the timestamp from the file which corresponds to the timestamp of the user-created order. The user's order is then submitted to to the OMS. The OMS processes the order while taking the ‘current’ market conditions and internalization opportunities into consideration. Once the order has been filled, the client’s account is updated and they will be able to see the average price they have obtained for their order (assuming the order would have been filled).
 
-This is a superficial description of the simulation. Reference the project wiki to delve into the minute details of each major component.
 
-Note: If you wish to run this application locally, you will have to delete the functions containing SQL queries to our database as you will not have access to our information.
+

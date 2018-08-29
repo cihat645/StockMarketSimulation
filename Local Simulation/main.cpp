@@ -25,11 +25,8 @@
 #include  <cstdlib>
 #include "Storage.hpp"
 
-string FOLDER_PATH = "/Users/thomasciha/Documents/2nd Year/CS 275/StockMarketSimulationLocal/StockMarketSimulationLocal/";
-string FILE_PATH = "/Users/thomasciha/Documents/2nd Year/CS 275/StockMarketSimulationLocal/IBM.csv";
-
-//string FOLDER_PATH = "";
-//string FILE_PATH = "";                                                // file path for reading market data
+string FOLDER_PATH = "";
+string FILE_PATH = "path/IBM.csv";                                           
 
 using namespace chrono;
 using namespace std;

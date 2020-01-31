@@ -1,16 +1,16 @@
 
 # StockMarketSimulation
 
-Two other students and I collaborated to create a stock broker application system which allows users to:
+Created a stock broker application system which allows users to:
 1.	Place orders in a stock market simulation for IBM common stock
 2.	Deposit cash into their brokerage account
 3.	View their account information
 4.	View their portfolio 
 
-We developed the system in C++ and integrated an Oracle DBMS using SQL queries. I will be explaining the stock market simulation segment of our project as I was the lead backend developer.
+The system was developed in C++ and integrated into an Oracle DBMS using SQL queries.
 
 Simulation Overview:
-I have obtained millisecond market data for IBM stock which includes the details of every bid and ask processed throughout the entire stock market in a single day. These data include:
+I obtained millisecond market data for IBM stock which includes the details of every bid and ask processed throughout the entire stock market in a single day. These data include:
 -	the exchange routing destination
 -	quantity of shares
 -	entered price 
